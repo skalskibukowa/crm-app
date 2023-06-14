@@ -16,6 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
+// Routes API
+app.use("/api/v1", userRoutes);
+
+app.use((req, res, next) => {
+  res.status(404).json({message: 'Could not find this route'})
+});
+
 
 // connection with MongoDB - database
 mongoose.connect(process.env.DB_URI)
