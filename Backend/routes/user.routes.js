@@ -18,7 +18,7 @@ router.post(
     check("email").not().isEmpty(),
     check("password").isLength({ min: 6 }),
     check("jobTitle").not().isEmpty(),
-  ],
+  ], 
   userController.signup
 );
 

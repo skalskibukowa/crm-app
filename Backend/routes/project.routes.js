@@ -1,6 +1,6 @@
 const express = require("express");
 const { check } = require("express-validator");
-
+8
 const projectController = require("../controllers/project.controllers");
 
 const router = express.Router();
@@ -11,15 +11,15 @@ router.delete("/project/:id", projectController.deleteProject);
 router.put("/project/:id", projectController.updateProject);
 
 router.post("/newProject", 
-  [
+  /*[
     check("projectName").not().isEmpty(),
     check("projectImage").not().isEmpty(),
     check("clientName").not().isEmpty(),
     check("address").not().isEmpty(),
     check("industries").not().isEmpty(),
-    check("size").not().isEmpty(),
+    check("size").isNumeric(),
     check("contactPerson").not().isEmpty()
-  ],
+  ],*/
   projectController.createProject
 )
 

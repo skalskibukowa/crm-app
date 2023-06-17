@@ -1,0 +1,38 @@
+// GetAllProject
+GET http://localhost:8081/api/v1/projects
+
+// GetProject
+GET http://localhost:8081/api/v1/project/6484b7fb551ec2f8afd3146b
+
+// DeleteProject
+
+DELETE http://localhost:8081/api/v1/project/6484b7fb551ec2f8afd3146b
+
+// UpdateProject
+
+PUT http://localhost:8081/api/v1/project/6484b80b551ec2f8afd31470
+
+{
+    "projectName": "DXSRP"
+}
+
+// CreateProject
+
+POST http://localhost:8081/api/v1/newProject HTTP/1.1
+content-type: application/json
+
+
+{
+    "projectName": "DXSRP",
+    "projectImage": "example.jpg",
+    "projectDetails": [
+        {
+            "clientName": "Leos Doe",
+            "address": "123 Main Street",
+            "industries": "Technology",
+            "size": 10,
+            "contactPerson": "Jane Smith"
+        }
+    ],
+    "AssignedUser": "648ccf2821217c2496cafe21"
+}

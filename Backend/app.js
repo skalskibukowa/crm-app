@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
 
-const userRoutes = require('./routes/users.routes');
+const userRoutes = require('./routes/user.routes');
 const projectRoutes = require('./routes/project.routes');
 
 // Set up PORT
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes API
-app.use("/api/v1", userRoutes);
+app.use("/api/v1", userRoutes)
 app.use("/api/v1", projectRoutes)
 
 

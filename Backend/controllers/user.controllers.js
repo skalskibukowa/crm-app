@@ -13,10 +13,10 @@ const getAllUsers = async (req, res, next) => {
         // print details about user, without password
         users = await UserSchema.find({}, '-password');
     } catch (err) {
-        res.status(500).json({message: 'Fetching users failed, please try again later.'})
+       return res.status(500).json({message: 'Fetching users failed, please try again later.'})
     }  
     //res.json({ userAll: users.map(user => user.toObject({ getters: true}))});
-    res.json({ UsersDetails : users});
+    return res.json({ UsersDetails : users});
 };
 
 // Get user
@@ -28,7 +28,7 @@ const getUser = async (req, res, next ) => {
     const user = await UserSchema.findById(userId);
     
     if(!user) {
-      res.status(404).json({message: 'User not found!'})
+      return res.status(404).json({message: 'User not found!'})
     }
 
     // payload userDetails
@@ -40,11 +40,11 @@ const getUser = async (req, res, next ) => {
       image: user.image
     };
 
-    res.status(200).json({message: 'Success!', user: userDetails});
+    return res.status(200).json({message: 'Success!', user: userDetails});
   }
   catch (err)  {
     if(!err.statusCode) {
-      res.status(500).json({message: 'Something went wrong, try again later!'})
+      return res.status(500).json({message: 'Something went wrong, try again later!'})
     }
   }
 }
@@ -58,14 +58,14 @@ const deleteUser = async (req, res, next ) => {
     const deleteUser = await UserSchema.findByIdAndDelete(userId);
 
     if(!deleteUser) {
-      res.status(400).json({message: "User doesn't exists"})
+      return res.status(400).json({message: "User doesn't exists"})
     }
 
-    res.status(200).json({message: 'Success! User has been removed!', deleteUser: deleteUser})
+    return res.status(200).json({message: 'Success! User has been removed!', deleteUser: deleteUser})
   }
   catch (err) {
     if(!err.statusCode) {
-      res.status(500).json({message: 'Something went wrong, try again later!'})
+      return res.status(500).json({message: 'Something went wrong, try again later!'})
     }
   }
 };
@@ -96,24 +96,24 @@ const signup = async (req, res, next) => {
     const errors = validationResult(req);
   
     if (!errors.isEmpty()) {
-      res.status(422).json({message: 'Invalid inputs passed, please check your data.'})
+     return res.status(422).json({message: 'Invalid inputs passed, please check your data.'})
     }
   
     // object desctructor
-    const { firstName, surname, email, password, jobTitle, image } = req.body;
+    const { firstName, surname, email, password, jobTitle, image, AssignedProject } = req.body;
   
     let existingUser;
   
     try {
       existingUser = await UserSchema.findOne({ email: email });
     } catch (err) {
-      res.status(500).json({message: 'Signing up failed, please try again later.'})
+     return res.status(500).json({message: 'Signing up failed, please try again later.'})
     }
   
     // Validation if the user exists
     // If the user exists, there should be an error
     if (existingUser) {
-      res.status(422).json({message: 'User already exists, please login instead.'})
+      return res.status(422).json({message: 'User already exists, please login instead.'})
     }
   
     // Password - hashPassword
@@ -121,9 +121,8 @@ const signup = async (req, res, next) => {
     try {
       hashedPassword = await bcrypt.hash(password, 10);
     } catch (err) {
-      res.status(500).json({message: 'Could not create user, please try again.'})
+      return res.status(500).json({message: 'Could not create user, please try again.'})
     }
-  
     // Adding a new user
     const createdUser = new UserSchema({
       firstName,
@@ -131,13 +130,14 @@ const signup = async (req, res, next) => {
       email,
       password: hashedPassword,
       jobTitle,
-      image
+      image //,
+      //AssignedProject: []
     });
 
     try {
       await createdUser.save();
     } catch (err) {
-      res.status(500).json({message: 'Signing up failed, please try again later.'})
+      return res.status(500).json({message: 'Signing up failed, please try again later.'})
     }
     
     // Create token with a 1-hour expiration
@@ -149,10 +149,10 @@ const signup = async (req, res, next) => {
         { expiresIn: '1h' }
       );
     } catch (err) {
-      res.status(500).json({message: 'Signing up failed, please try again later.'})
+     return res.status(500).json({message: 'Signing up failed, please try again later.'}) 
     }
   
-    res.status(201).json({ userId: createdUser.id, email: createdUser.email, token: token });
+   return res.status(201).json({ userId: createdUser.id, email: createdUser.email, token: token });
 };
 
 // Login User
@@ -165,12 +165,12 @@ const login = async (req, res, next) => {
         try {
             existingUser = await UserSchema.findOne({ email: email });
         } catch (err) {
-            res.status(500).json({message: 'Logging in failed, please try again later.'})
+           return res.status(500).json({message: 'Logging in failed, please try again later.'})
         }
        
         // Validation if the user is registered if not then Error
         if (!existingUser) {
-          res.status(403).json({message: 'Invalid credentials, could not log you in.'})
+          return res.status(403).json({message: 'Invalid credentials, could not log you in.'})
         }
 
         // Validation password correctness
@@ -179,24 +179,24 @@ const login = async (req, res, next) => {
         try {
             isValidPassword = await bcrypt.compare(password, existingUser.password);
         } catch (err) {
-            res.status(500).json({message: 'Could not log you in, please check your credentials and try again.'})
+            return res.status(500).json({message: 'Could not log you in, please check your credentials and try again.'})
         }
 
         if (!isValidPassword) {
-            res.status(403).json({message: 'Invalid credentials, could not log you in.'})
+            return res.status(403).json({message: 'Invalid credentials, could not log you in.'})
         }
 
         let token;
         try {
             token = jwt.sign(
-                {userId: createdUser.id, email: createdUser.email},
+                {userId: existingUser.id, email: existingUser.email},
                 process.env.JWT_Password, // 'supersecret DO NOT share'
                 { expiresIn: '1h'}
             );
         } catch (err) {
-            res.status(500).json({message: 'Signing up failed, please try again later.'})
+            return res.status(500).json({message: 'Signing up failed, please try again later.'})
         }
-        res.status(201).json({userId: createdUser.id, email: createdUser.email, token: token });
+        return res.status(201).json({userId: existingUser.id, email: existingUser.email, token: token });
 }
 
 

@@ -1,0 +1,43 @@
+// GetAllUsers
+
+http://localhost:8081/api/v1/users
+
+// GetUser
+
+http://localhost:8081/api/v1/user/6484b7fb551ec2f8afd3146b
+
+
+// RegisterUser
+
+POST http://localhost:8081/api/v1/signup HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Ram",
+    "surname": "ter",
+    "email": "Ram.ter@gmail.com",
+    "password": "ter1234567",
+    "jobTitle": "Software Engineer",
+    "image": "http://example.com/profile.jpg"
+}
+
+// LoginUser
+
+POST http://localhost:8081/api/v1/login
+
+{
+    "email": "Admin@gmail.com",
+    "password": "admin12"
+}
+
+// DeleteUser
+
+DELETE http://localhost:8081/api/v1/user/6484b6916d2eec3c6b1b3c7b
+
+// UpdateUser
+
+PUT http://localhost:8081/api/v1/user/6484b7fb551ec2f8afd3146b
+
+{
+    "surname": "Golem"
+}
