@@ -130,8 +130,8 @@ const signup = async (req, res, next) => {
       email,
       password: hashedPassword,
       jobTitle,
-      image,
-      AssignedProject
+      image //,
+      //AssignedProject: []
     });
 
     try {

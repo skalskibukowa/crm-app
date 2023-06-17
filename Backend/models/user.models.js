@@ -11,7 +11,7 @@ const userSchema = new Schema(
         password: { type: String, required: true, minLength: 6},
         jobTitle: { type: String, required: true},
         image: {type: String, required: false},
-        AssignedProject: { type: mongoose.Types.ObjectId, required: true, ref: 'Project'}
+        AssignedProject: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Project'}]
     },
     {timestamps: true}
 );
