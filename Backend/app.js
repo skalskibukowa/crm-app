@@ -8,7 +8,7 @@ const userRoutes = require('./routes/user.routes');
 const projectRoutes = require('./routes/project.routes');
 
 // Set up PORT
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -18,26 +18,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes API
-app.use("/api/v1", userRoutes)
-app.use("/api/v1", projectRoutes)
+app.use('/api/v1', userRoutes);
+app.use('/api/v1', projectRoutes);
 
-
-app.use((req, res, next) => {
-  res.status(404).json({ message: `Route not found: ${req.originalUrl}` });
+app.use((req, res) => {
+    res.status(404).json({ message: `Route not found: ${req.originalUrl}` });
 });
 
-
 // connection with MongoDB - database
-mongoose.connect(process.env.DB_URI)
-  .then(() => {
-    console.log(`Connected to MongoDB`);
-  })
-  .catch((err) => {
-    console.error(`Error connecting to MongoDB: ${err}`);
-    process.exit(1); // Terminate the application with a non-zero exit code
-  });
-
+mongoose
+    .connect(process.env.DB_URI)
+    .then(() => {
+        console.info('Connected to MongoDB');
+    })
+    .catch((err) => {
+        console.error(`Error connecting to MongoDB: ${err}`);
+        process.exit(1); // Terminate the application with a non-zero exit code
+    });
 
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.info(`Server is running at http://localhost:${PORT}`);
 });
