@@ -17,18 +17,38 @@ The main purpose of this project is, to excellence skills associated with React,
 **Backend:**
 
 1. NodeJS - framework: ExpressJS
-2. ODM - mongoose
+2. ODM (object-data-modeling) - mongoose
 
 **Database:** MongoDB
 
-**DevOps:** Docker
+**DevOps:** 
+
+Docker -- done
+Docker-compose.yml - to configure after done frontend part
 
 **Libraries**:
 
 **Extensions:**
 
-1. Eslint
-2. Prettier
+1. Eslint  -- Done
+Commands:
+
+Check rules
+npm run lint:check
+
+Auto-fixing errors
+npm run lint:fix
+
+
+2. Prettier -- Done
+
+Commands:
+
+Check rules:
+npm run format:check
+
+Format files:
+npm run format:write
 
 **Documentation and test API:** POSTMAN / REST client (Extension Vsc)
 
