@@ -30,7 +30,7 @@ const userSchema = new Schema(
             required: true,
         },
         image: { type: String, required: false },
-        AssignedProject: [
+        assignedProject: [
             { type: mongoose.Types.ObjectId, required: true, ref: 'Project' },
         ],
     },

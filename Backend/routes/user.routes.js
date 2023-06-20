@@ -20,11 +20,24 @@ router.post(
 
 router.post('/login', userController.login);
 
-//Authentication 
+//Authentication
 router.use(checkAuth);
 
-router.get('/users', userController.getAllUsers);
+// Authorization middleware for admin-only routes
+const adminAuthorization = (req, res, next) => {
+    if (req.userData.role !== 'admin') {
+      return res.status(403).json({ message: 'Authorization failed!' });
+    }
+    next();
+  };
+  
+
+router.get('/users', adminAuthorization, userController.getAllUsers);
 router.get('/user/:id', userController.getUser);
+
+// Authorization middleware for admin-only routes
+router.use(adminAuthorization);
+
 router.delete('/user/:id', userController.deleteUser);
 router.put('/user/:id', userController.updateUser);
 
