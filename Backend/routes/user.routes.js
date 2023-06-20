@@ -20,6 +20,7 @@ router.post(
 
 router.post('/login', userController.login);
 
+//Authentication 
 router.use(checkAuth);
 
 router.get('/users', userController.getAllUsers);

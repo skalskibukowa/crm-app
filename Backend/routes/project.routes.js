@@ -16,6 +16,7 @@ const projectImage = 'projectImage';
 
 const router = express.Router();
 
+//Authentication
 router.use(checkAuth);
 
 router.get('/projects', projectController.getAllProject);
