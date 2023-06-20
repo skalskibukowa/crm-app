@@ -2,13 +2,9 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const userController = require('../controllers/user.controllers');
+const checkAuth = require('../../Backend/middleware/checkAuth');
 
 const router = express.Router();
-
-router.get('/users', userController.getAllUsers);
-router.get('/user/:id', userController.getUser);
-router.delete('/user/:id', userController.deleteUser);
-router.put('/user/:id', userController.updateUser);
 
 router.post(
     '/signup',
@@ -23,5 +19,13 @@ router.post(
 );
 
 router.post('/login', userController.login);
+
+//Authentication 
+router.use(checkAuth);
+
+router.get('/users', userController.getAllUsers);
+router.get('/user/:id', userController.getUser);
+router.delete('/user/:id', userController.deleteUser);
+router.put('/user/:id', userController.updateUser);
 
 module.exports = router;

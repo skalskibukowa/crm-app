@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const projectController = require('../controllers/project.controllers');
+const checkAuth = require('../../Backend/middleware/checkAuth');
 
 // Variable path
 
@@ -14,6 +15,9 @@ const projectName = 'projectName';
 const projectImage = 'projectImage';
 
 const router = express.Router();
+
+//Authentication
+router.use(checkAuth);
 
 router.get('/projects', projectController.getAllProject);
 router.get('/project/:id', projectController.getProject);
