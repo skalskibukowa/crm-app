@@ -121,7 +121,7 @@ const signup = async (req, res) => {
         password,
         jobTitle,
         image,
-        AssignedProject,
+        assignedProject,
     } = req.body;
 
     let existingUser;
