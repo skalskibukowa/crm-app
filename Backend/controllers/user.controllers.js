@@ -12,11 +12,9 @@ const getAllUsers = async (req, res) => {
         // print details about user, without password
         users = await UserSchema.find({}, '-password');
     } catch (err) {
-        return res
-            .status(500)
-            .json({
-                message: 'Fetching users failed, please try again later.',
-            });
+        return res.status(500).json({
+            message: 'Fetching users failed, please try again later.',
+        });
     }
     //res.json({ userAll: users.map(user => user.toObject({ getters: true}))});
     return res.json({ UsersDetails: users });
@@ -84,7 +82,7 @@ const updateUser = async (req, res) => {
         const UpdateUser = await UserSchema.findByIdAndUpdate(
             userId,
             req.body,
-            { new: true }
+            { new: true },
         ); // an optional third parameter that specifies that you want to receive the updated user information in the response instead of the old information
 
         if (!UpdateUser) {
@@ -110,11 +108,9 @@ const signup = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res
-            .status(422)
-            .json({
-                message: 'Invalid inputs passed, please check your data.',
-            });
+        return res.status(422).json({
+            message: 'Invalid inputs passed, please check your data.',
+        });
     }
 
     // object desctructor
@@ -125,7 +121,7 @@ const signup = async (req, res) => {
         password,
         jobTitle,
         image,
-        AssignedProject
+        AssignedProject,
     } = req.body;
 
     let existingUser;
@@ -180,7 +176,7 @@ const signup = async (req, res) => {
         token = jwt.sign(
             { userId: createdUser.id, email: createdUser.email },
             process.env.JWT_Password, // 'supersecret DO NOT share'
-            { expiresIn: '1h' }
+            { expiresIn: '1h' },
         );
     } catch (err) {
         return res
@@ -240,7 +236,7 @@ const login = async (req, res) => {
         token = jwt.sign(
             { userId: existingUser.id, email: existingUser.email },
             process.env.JWT_Password, // 'supersecret DO NOT share'
-            { expiresIn: '1h' }
+            { expiresIn: '1h' },
         );
     } catch (err) {
         return res

@@ -22,7 +22,7 @@ const projectSchema = new Schema(
             ref: 'User',
         },
     },
-    { timestamps: true }
+    { timestamps: true },
 );
 
 projectSchema.plugin(uniqueValidator);

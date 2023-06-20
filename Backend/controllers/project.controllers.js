@@ -55,7 +55,7 @@ const updateProject = async (req, res) => {
         const projectUpdate = await projectSchema.findByIdAndUpdate(
             projectId,
             req.body,
-            { new: true }
+            { new: true },
         );
 
         if (!projectUpdate) {

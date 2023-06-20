@@ -19,7 +19,7 @@ router.post(
         check('password').isLength({ min: 6 }),
         check('jobTitle').not().isEmpty(),
     ],
-    userController.signup
+    userController.signup,
 );
 
 router.post('/login', userController.login);

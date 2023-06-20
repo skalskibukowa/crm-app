@@ -31,7 +31,7 @@ router.post(
         check(size).isNumeric(),
         check(contactPerson).not().isEmpty(),
     ],
-    projectController.createProject
+    projectController.createProject,
 );
 
 module.exports = router;
