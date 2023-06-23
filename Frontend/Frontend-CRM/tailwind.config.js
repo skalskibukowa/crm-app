@@ -1,9 +1,20 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./src/**/*.{html,js}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
 
+const colors = require('tailwindcss/colors')
+
+module.exports =  {
+    content: ["./src/**/*.{js,ts,jsx,tsx}"],
+    theme: {
+      extend: {
+        colors: {
+          green: colors.emerald,
+          yellow: colors.amber,
+          purple: colors.violet,
+        }
+      },
+    },
+    plugins: [   
+      require('tailwindcss'),
+      require('autoprefixer')
+  ],
+};
