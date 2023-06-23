@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 // Enum jobTitle
 const jobTitleEnum = [
-    'Software Enginner',
+    'Software Engineer',
     'Manager',
     'Sales Person',
     'Architect Solution',

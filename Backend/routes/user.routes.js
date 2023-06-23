@@ -2,10 +2,11 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const userController = require('../controllers/user.controllers');
-const checkAuth = require('../../Backend/middleware/checkAuth');
+const { authenticate, authorizeAdmin } = require('../middleware/checkAuth');
 
 const router = express.Router();
 
+// Public routes
 router.post(
     '/signup',
     [
@@ -15,30 +16,17 @@ router.post(
         check('password').isLength({ min: 6 }),
         check('jobTitle').not().isEmpty(),
     ],
-    userController.signup,
+    userController.signup
 );
 
 router.post('/login', userController.login);
 
-//Authentication
-router.use(checkAuth);
+// Routes that require authentication
+router.get('/users', authenticate, userController.getAllUsers);
+router.get('/user/:id', authenticate, userController.getUser);
 
-// Authorization middleware for admin-only routes
-const adminAuthorization = (req, res, next) => {
-    if (req.userData.role !== 'admin') {
-      return res.status(403).json({ message: 'Authorization failed!' });
-    }
-    next();
-  };
-  
-
-router.get('/users', adminAuthorization, userController.getAllUsers);
-router.get('/user/:id', userController.getUser);
-
-// Authorization middleware for admin-only routes
-router.use(adminAuthorization);
-
-router.delete('/user/:id', userController.deleteUser);
-router.put('/user/:id', userController.updateUser);
+// Routes that require admin authorization
+router.delete('/user/:id', authenticate, authorizeAdmin, userController.deleteUser);
+router.put('/user/:id', authenticate, authorizeAdmin, userController.updateUser);
 
 module.exports = router;

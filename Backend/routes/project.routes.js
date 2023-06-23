@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const projectController = require('../controllers/project.controllers');
-const checkAuth = require('../../Backend/middleware/checkAuth');
+const { authenticate } = require('../middleware/checkAuth');
 
 // Variable path
 
@@ -16,16 +16,15 @@ const projectImage = 'projectImage';
 
 const router = express.Router();
 
-//Authentication
-router.use(checkAuth);
-
-router.get('/projects', projectController.getAllProject);
-router.get('/project/:id', projectController.getProject);
-router.delete('/project/:id', projectController.deleteProject);
-router.put('/project/:id', projectController.updateProject);
+// Routes that require authentication
+router.get('/projects', authenticate, projectController.getAllProject);
+router.get('/project/:id', authenticate, projectController.getProject);
+router.delete('/project/:id', authenticate, projectController.deleteProject);
+router.put('/project/:id', authenticate, projectController.updateProject);
 
 router.post(
     '/newProject',
+    authenticate,
     [
         check(projectName).not().isEmpty(),
         check(projectImage).not().isEmpty(),
