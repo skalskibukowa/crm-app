@@ -13,7 +13,7 @@ const authenticate = (req, res, next) => {
         }
 
         const decodedToken = jwt.verify(token, process.env.JWT_Password);
-        req.userData = { userId: decodedToken.userId , role: decodedToken };
+        req.userData = { userId: decodedToken.userId, role: decodedToken.role };
 
         next();
     } catch (err) {
@@ -21,4 +21,16 @@ const authenticate = (req, res, next) => {
     }
 };
 
-module.exports = authenticate;
+// Admin authorization middleware
+const authorizeAdmin = (req, res, next) => {
+    if (req.userData.role !== 'admin') {
+        return res.status(401).json({ message: 'Authorization failed!' });
+    }
+
+    next();
+};
+
+module.exports = {
+    authenticate,
+    authorizeAdmin
+};
