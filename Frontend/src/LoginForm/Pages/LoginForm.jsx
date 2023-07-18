@@ -32,8 +32,8 @@ import { useState } from 'react';
                             type="email"
                             placeholder="email"
                             name="email"    
-                            //ref={register({ required: true, pattern: /^\S+@\S+$/i })} 
-                           //  {errors.email && <p>This field is required and should be a valid email address.</p>}
+                            // ref={register({ required: true, pattern: /^\S+@\S+$/i })} 
+                            // {errors.email && <p>This field is required and should be a valid email address.</p>}
                             />
                         
                         <input
