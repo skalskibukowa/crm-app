@@ -1279,31 +1279,31 @@ const Dashboard = () => {
                       width="30"
                       height="20"
                       transform="matrix(76.8 0 0 76.8 128 128)"
-                      xlink:href="#a"
+
                     />
                     <use
                       width="30"
                       height="20"
                       transform="rotate(-121 142.6 -47) scale(25.5827)"
-                      xlink:href="#a"
+
                     />
                     <use
                       width="30"
                       height="20"
                       transform="rotate(-98.1 198 -82) scale(25.6)"
-                      xlink:href="#a"
+
                     />
                     <use
                       width="30"
                       height="20"
                       transform="rotate(-74 272.4 -114) scale(25.6137)"
-                      xlink:href="#a"
+
                     />
                     <use
                       width="30"
                       height="20"
                       transform="matrix(16 -19.968 19.968 16 256 230.4)"
-                      xlink:href="#a"
+
                     />
                   </svg>
                   中文 (繁體)
@@ -1367,6 +1367,6 @@ const Dashboard = () => {
     </main>
   </div>
   )
-}
+};
 
 export default Dashboard;
