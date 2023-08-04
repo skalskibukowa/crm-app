@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm/Pages/LoginForm';
 import LoginTest from './LoginForm/Pages/LoginTest';
-import RegisterForm from './LoginForm/Pages/RegisterForm';
+import RegisterForm from './registerForm/Pages/RegisterForm';
 import Dashboard from './Project/Pages/Dashboard';
 import Navbar from './Project/Pages/Navbar';
 import LoginFormTest from './LoginForm/Pages/LoginFormTest';
@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/login');
+      navigate('/register');
     }
   }, [token]);
 
