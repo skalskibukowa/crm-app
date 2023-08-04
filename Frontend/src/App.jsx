@@ -11,35 +11,37 @@ import {APP_ROUTES} from '../src/utils/constants';
 import UserDetails from './LoginForm/Pages/UserDetails';
 import { getTokenFromLocalStorage } from './lib/common';
 import { useEffect } from 'react';
+import PageNotFound from './PageNotFound/PageNotFound';
 
 const App = () => {
 
     // Get the token from local storage
   const token = getTokenFromLocalStorage();
 
-  // Use the navigate hook to redirect to the login page if token is not available
-  const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (!token) {
-      navigate('/register');
-    }
-  }, [token]);
-
-  return (
+  if (!token) {
+    // Render login and register pages when there is no token
+    return (
       <Routes>
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/form" element={<LoginTest />}/>
         <Route path="/register" element={<RegisterForm />} />
-        <Route path="/loginTest" element={<LoginFormTest />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/navbar" element={<Navbar /> } />
-        <Route path="/test" element={<Test />} />
-        <Route path={APP_ROUTES.DASHBOARD} element={<DashboardsTest />} />
-        <Route path="/userDetails/:userId" element={<UserDetails />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
+    );
+  }
+
+  // Render the rest of the pages when token is available
+  return (
+    <Routes>
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/navbar" element={<Navbar />} />
+      <Route path={APP_ROUTES.DASHBOARD} element={<DashboardsTest />} />
+      <Route path="/userDetails/:userId" element={<UserDetails />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
-}
+};
+
 
 export default App;
