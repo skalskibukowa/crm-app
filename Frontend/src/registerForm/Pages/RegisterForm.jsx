@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterForm = () => {
 
@@ -11,6 +12,8 @@ const RegisterForm = () => {
         password: '',
         confirmPassword: ''
     });
+    
+    
 
     const [isChecked, setIsChecked] = useState(false);
     const [isCheckboxError, setIsCheckboxError] = useState(false);
@@ -18,7 +21,6 @@ const RegisterForm = () => {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        e.preventDefault();
 
         const {name, value} = e.target;
         setFormData((prevFormData) => ({...prevFormData, [name]: value}))
@@ -90,11 +92,11 @@ const RegisterForm = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="Surname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Surname</label>
+                        <label htmlFor="surname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Surname</label>
                         <input 
-                            type="Surname" 
-                            name="Surname" 
-                            id="Surname" 
+                            type="surname" 
+                            name="surname" 
+                            id="surname" 
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             placeholder="Smith" 
                             required=""
@@ -119,8 +121,8 @@ const RegisterForm = () => {
                     <label class="block">
                         <span className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Job Title</span>
                         <select 
-                            class="block w-full mt-1"
-                            name="JobTitle"
+                            className="block w-full mt-1"
+                            name="jobTitle"
                             value={formData.jobTitle}
                             onChange={handleChange}
                         >
@@ -148,11 +150,11 @@ const RegisterForm = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
+                        <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
                         <input 
                             type="password" 
-                            name="password" 
-                            id="password" 
+                            name="confirmPassword" 
+                            id="confirmPassword" 
                             placeholder="••••••••" 
                             className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             required=""
