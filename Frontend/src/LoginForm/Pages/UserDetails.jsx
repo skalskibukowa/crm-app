@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { getTokenFromLocalStorage } from '../../lib/common';
 import Logout from '../Components/Logout';
+import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
 
 const UserDetails = () => {
   const [user, setUser] = useState({});
@@ -17,7 +18,7 @@ const UserDetails = () => {
 
   const getUserDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:8081/api/v1/user/${userId}`, {
+      const response = await axios.get(API_ROUTES.GET_USER(userId), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,10 +39,9 @@ const UserDetails = () => {
   };
 
 
-
   useEffect(() => {
     if(!token) {
-      navigate('/login');
+      navigate(APP_ROUTES.SIGN_IN);
     } else {
       getUserDetails()
     }

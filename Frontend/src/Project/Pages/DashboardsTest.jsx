@@ -2,7 +2,7 @@ import React from 'react';
 import { useUser } from '../../lib/customHooks';
 
 
-const getUsewr = async (e) => {
+const getUser = async (e) => {
   e.preventDefault();
 
   try {

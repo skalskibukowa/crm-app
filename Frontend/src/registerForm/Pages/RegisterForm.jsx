@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { APP_ROUTES, API_ROUTES } from '../../utils/constants';
 
 const RegisterForm = () => {
 
@@ -13,8 +14,6 @@ const RegisterForm = () => {
         confirmPassword: ''
     });
     
-    
-
     const [isChecked, setIsChecked] = useState(false);
     const [isCheckboxError, setIsCheckboxError] = useState(false);
 
@@ -46,13 +45,13 @@ const RegisterForm = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8081/api/v1/signup', formData);
+            const response = await axios.post(API_ROUTES.REGISTER, formData);
             console.log('Registration successful!', response.data);
 
             window.alert('Registration successful! Please log in.');
 
             //Redirect to login page
-            navigate('/login');
+            navigate(APP_ROUTES.SIGN_IN);
         } catch (error) {
             console.log('Registration failed!', error);
             window.alert('Registration failed. Please try again.');
