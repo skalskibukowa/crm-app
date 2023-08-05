@@ -8,7 +8,7 @@ import { storeTokenInLocalStorage } from '../../lib/common';
 const LoginFormTest = () => {
 
   const navigate = useNavigate();
-  const  { authenticated, setUser, user } = useUser(); // Destructure setUser and setAuthenticated from the custom hook
+  const  { authenticated, setUser } = useUser(); // Destructure setUser and setAuthenticated from the custom hook
 
   if (authenticated) {
     navigate(APP_ROUTES.DASHBOARD)
@@ -52,7 +52,7 @@ const LoginFormTest = () => {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
-          <form className="w-full max-w-sm items py-20" onSubmit={handleLogin}>
+          <form className="w-full max-w-sm items py-80" onSubmit={handleLogin}>
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3">
                 <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" >

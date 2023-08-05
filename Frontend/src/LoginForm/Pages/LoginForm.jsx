@@ -1,10 +1,55 @@
-import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { Link, redirect, json } from "react-router-dom";
-
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../lib/customHooks';
+import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
+import { storeTokenInLocalStorage } from '../../lib/common';
+import React, { useState } from 'react';
 
   const LoginForm = () => {
+
+    const navigate = useNavigate();
+    const  { authenticated, setUser } = useUser(); // Destructure setUser and setAuthenticated from the custom hook
+  
+    if (authenticated) {
+      navigate(APP_ROUTES.DASHBOARD)
+    }
+  
+    const [emailAddress, setEmailAddress] = useState('');
+    const [password, setPassword] = useState('');
+   
+    const handleEmailAddress = (e) => {
+      setEmailAddress(e.target.value);
+    };
+  
+    const handlePassword = (e) => {
+      setPassword(e.target.value);
+    };
+  
+    const handleLogin = async (e) => {
+      e.preventDefault();
+  
+      const userData = {
+        email: emailAddress,
+        password: password,
+      };
+
+      try {
+        const response = await axios.post(API_ROUTES.SIGN_IN, userData);
+        const { token, userId } = response.data;
+        console.log('Login successful!', response.data);
+        window.alert('You are logged in');
+        storeTokenInLocalStorage(token);
+  
+        setUser(userId);
+  
+        navigate(`/userDetails/${userId}`);
+      } catch (error) {
+        window.alert('Try again');
+        console.log('Login failed!', error);
+      }
+    };
+
 
   const backgroundImageStyle = {
     backgroundImage: "url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg')" // "url('https://picsum.photos/1920/1080')",
@@ -26,12 +71,14 @@ import { useState } from 'react';
                 <div className="w-full flex-1 mt-8">
 
                     <div className="mx-auto max-w-xs">
-                      <form >
+                      <form onSubmit={handleLogin}>
                         <input
                             className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                             type="email"
                             placeholder="email"
-                            name="email"    
+                            name="email"
+                            value={emailAddress}
+                            onChange={handleEmailAddress}    
                             // ref={register({ required: true, pattern: /^\S+@\S+$/i })} 
                             // {errors.email && <p>This field is required and should be a valid email address.</p>}
                             />
@@ -41,11 +88,13 @@ import { useState } from 'react';
                             type="password"
                             placeholder="Password"
                             name="password"
+                            value={password}
+                            onChange={handlePassword}
                            // ref={register({ required: true })} 
                           //   {errors.password && <p>This field is required.</p>}
                             />
                          
-                        <Link to="/dashboard">
+                        {/* <Link to="/dashboard"> */}
                             <button
                                 className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                 type="submit">
@@ -65,7 +114,7 @@ import { useState } from 'react';
                                     Sign Up
                                 </span>
                             </button>
-                        </Link>
+                        {/* </Link> */}
                         
                         </form>
 
@@ -91,11 +140,11 @@ import { useState } from 'react';
                         </Link>
 
                         <p className="mt-6 text-xs text-gray-600 text-center">
-                            I agree to abide by templatana's
+                            I agree to abide by templatana's <span> </span>
                             <a href="#" className="border-b border-gray-500 border-dotted">
-                                Terms of Service
+                                Terms of Service <span> </span>
                             </a>
-                            and its
+                            and its <span> </span>
                             <a href="#" className="border-b border-gray-500 border-dotted">
                                 Privacy Policy
                             </a>
