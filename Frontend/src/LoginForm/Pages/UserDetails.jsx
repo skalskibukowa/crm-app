@@ -3,8 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { getTokenFromLocalStorage } from '../../lib/common';
-import Logout from '../Components/Logout';
+import Logout from '../Components/LogoutButton';
 import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
+import { PaperClipIcon } from '@heroicons/react/20/solid';
+import DeleteButton from '../Components/deleteButton';
+import HomePageButton from '../Components/HomePageButton';
+import EditUserButton from '../Components/EditUserButton';
+import LogoutButton from '../Components/LogoutButton';
 
 const UserDetails = () => {
   const [user, setUser] = useState({});
@@ -50,54 +55,88 @@ const UserDetails = () => {
 
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      {error ? (
-        <p>{error}</p>
-      ) : (
-        <>
-          <h2>User Detail</h2>
-
-          {user && (
-            <>
-               <p>User name: {user.firstName}</p>
-              <p>User type: {user.surname}</p>
-              <p>User email: {user.email}</p>
-              <p>User job title: {user.jobTitle}</p>
-              <p>User image: {user.image}</p>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Link to={`/${userId}/edit`}>
-            <button style={{ marginRight: 10 }}>Edit user</button>
-          </Link>
-
-          <Link to={"/"}>
-            <button style={{ marginRight: 10 }}>Back to Homepage </button>
-          </Link>
-
-          <button style={{ marginRight: 10 }} onClick={() => deleteUser()}>
-            Delete user
-          </button>
-
-          <Logout />
-        </div>
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <div className='flex justify-center'>
+      <div className="max-w-screen-xl m-4 sm:m-10 bg-white shadow sm:rounded-lg border-gray-900">
+              <div className="px-4 sm:px-0 border-gray-900">
+                <h3 className="text-base font-semibold leading-7 text-gray-900">Employee information</h3>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal Details</p>
+              </div>
+              <div className="mt-4 border-t border-spacing-3 border-gray-900">
+                <dl className="divide-y border-gray-900">
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Photo</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user.image}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Full name</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user.firstName} {user.surname}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Job title</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user.jobTitle}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Email address</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user.email}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Salary expectation</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000 - TBD</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
+                      qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud
+                      pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
+                    <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                      <ul role="list" className="divide-y divide-gray-900 rounded-md border border-gray-900 mx-20">
+                        <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                          <div className="flex w-0 flex-1 items-center">
+                            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                              <span className="truncate font-medium">resume_back_end_developer.pdf</span>
+                              <span className="flex-shrink-0 text-gray-400">2.4mb</span>
+                            </div>
+                          </div>
+                          <div className="ml-4 flex-shrink-0">
+                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                              Download
+                            </a>
+                          </div>
+                        </li>
+                        <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                          <div className="flex w-0 flex-1 items-center">
+                            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                              <span className="truncate font-medium">coverletter_back_end_developer.pdf</span>
+                              <span className="flex-shrink-0 text-gray-400">4.5mb</span>
+                            </div>
+                          </div>
+                          <div className="ml-4 flex-shrink-0">
+                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                              Download
+                            </a>
+                          </div>
+                        </li>
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            <div className='flex justify-center gap-4'>
+              <EditUserButton />
+              <DeleteButton />
+              <HomePageButton /> 
+              <LogoutButton />
+            </div>
+            </div>
+            
+      </div>
   );
 };
 

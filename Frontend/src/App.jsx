@@ -1,9 +1,6 @@
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import LoginForm from './LoginForm/Pages/LoginForm';
 import RegisterForm from './registerForm/Pages/RegisterForm';
-import Dashboard from './Project/Pages/Dashboard';
-import Navbar from './Project/Pages/Navbar';
-import DashboardsTest from './Project/Pages/DashboardsTest';
 import {APP_ROUTES} from '../src/utils/constants';
 import UserDetails from './LoginForm/Pages/UserDetails';
 import { getTokenFromLocalStorage } from './lib/common';
@@ -20,7 +17,6 @@ const App = () => {
       <Routes>
         <Route path={APP_ROUTES.SIGN_IN} element={<LoginForm />} />
         <Route path={APP_ROUTES.REGISTER} element={<RegisterForm />} />
-        <Route path="*" element={<PageNotFound />} />
       </Routes>
     );
   }
@@ -28,11 +24,7 @@ const App = () => {
   // Render the rest of the pages when token is available
   return (
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/navbar" element={<Navbar />} />
-      <Route path={APP_ROUTES.DASHBOARD} element={<DashboardsTest />} />
       <Route path="/userDetails/:userId" element={<UserDetails />} />
-      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
