@@ -27,7 +27,7 @@ POST http://localhost:8081/api/v1/login
 
 {
     "email": "Admin@gmail.com",
-    "password": "admin12"
+    "password": "admin1234"
 }
 
 // DeleteUser
