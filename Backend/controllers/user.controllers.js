@@ -174,7 +174,7 @@ const signup = async (req, res) => {
     let token;
     try {
         token = jwt.sign(
-            { userId: createdUser.id, email: createdUser.email },
+            { userId: createdUser.id, email: createdUser.email, role: createdUser.userRole },
             process.env.JWT_Password, // 'supersecret DO NOT share'
             { expiresIn: '1h' },
         );
@@ -187,6 +187,7 @@ const signup = async (req, res) => {
     return res.status(201).json({
         userId: createdUser.id,
         email: createdUser.email,
+        userRole: createdUser.userRole,
         token: token,
     });
 };
@@ -234,7 +235,7 @@ const login = async (req, res) => {
     let token;
     try {
         token = jwt.sign(
-            { userId: existingUser.id, email: existingUser.email },
+            { userId: existingUser.id, email: existingUser.email, userRole: existingUser.userRole },
             process.env.JWT_Password, // 'supersecret DO NOT share'
             { expiresIn: '1h' },
         );
@@ -246,6 +247,7 @@ const login = async (req, res) => {
     return res.status(201).json({
         userId: existingUser.id,
         email: existingUser.email,
+        userRole: existingUser.userRole,
         token: token,
     });
 };

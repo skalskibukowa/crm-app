@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { getTokenFromLocalStorage } from '../../lib/common';
-import Logout from '../Components/LogoutButton';
 import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 import DeleteButton from '../Components/deleteButton';
@@ -15,11 +13,70 @@ const UserDetails = () => {
   const [user, setUser] = useState({});
   const [error, setError] = useState(null);
 
+  // Add state variables for editable fields
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [about, setAbout] = useState('');
+
+  // State variable to track if the edit modal is open or closed
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const { userId } = useParams();
 
   const token = getTokenFromLocalStorage();
 
   const navigate = useNavigate();
+
+   // Implement a function to save the edited user data
+   const saveUserDetails = async () => {
+    try {
+      const response = await axios.put(
+        API_ROUTES.UPDATE_USER(userId),
+        {
+          email,
+          firstName,
+          surname,
+          jobTitle,
+          image,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setUser(response.data.user);
+        setError(null); // Clear any previous error state if the API call succeeds
+      } else {
+        setError('Failed to update user'); // Set the error state in case the API call fails
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('Error updating user details'); // Set the error state in case of any error during the API call
+    }
+  };
+
+  // Function to open the edit modal
+  const openEditModal = () => {
+    // Copy the user details to the state variables for editing
+    setEmail(user.email);
+    setFirstName(user.firstName);
+    setSurname(user.surname);
+    setJobTitle(user.jobTitle);
+    setImage(user.image);
+
+    setIsEditModalOpen(true);
+  };
+
+  // Function to close the edit modal
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
 
   const getUserDetails = async () => {
     try {
@@ -129,13 +186,78 @@ const UserDetails = () => {
                 </dl>
               </div>
             <div className='flex justify-center gap-4'>
-              <EditUserButton />
+              <EditUserButton onClick={openEditModal} />
               <DeleteButton />
               <HomePageButton /> 
               <LogoutButton />
             </div>
             </div>
-            
+            {isEditModalOpen && (
+        <div className="fixed inset-0 z-10 overflow-y-auto bg-opacity-50 bg-gray-900 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-8">
+            <h3 className="text-base font-semibold leading-7 text-gray-900">Edit User Details</h3>
+            <div className="mt-4">
+              {/* Input fields for editing */}
+              <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">Photo:</label>
+                <input
+                  type="text"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 w-full"
+                />
+                <label className="block text-gray-700 text-sm font-bold mb-2">First Name:</label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 w-full"
+                />
+                <label className="block text-gray-700 text-sm font-bold mb-2">Surname:</label>
+                <input
+                  type="text"
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 w-full"
+                />
+                <label className="block text-gray-700 text-sm font-bold mb-2">Email address:</label>
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 w-full"
+                />
+                <label className="block text-gray-700 text-sm font-bold mb-2">Job Title:</label>
+                <input
+                  type="text"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 w-full"
+                />
+              </div>
+              {/* ... (other input fields) */}
+            </div>
+            <div className="flex justify-end">
+              <button
+                onClick={closeEditModal}
+                className="mr-2 px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 rounded-md"
+              >
+                Cancel
+              </button>
+              {/* Add a save button within the modal */}
+              <button
+                onClick={() => {
+                  saveUserDetails(); // Implement saveUserDetails function to update the user details
+                  closeEditModal();
+                }}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
   );
 };
