@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { API_ROUTES } from '../../utils/constants';
+import { API_ROUTES } from '../Utils/constants';
 import {useState } from 'react';
 
 

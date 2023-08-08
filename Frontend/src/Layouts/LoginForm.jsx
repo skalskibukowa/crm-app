@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../lib/customHooks';
-import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
-import { storeTokenInLocalStorage } from '../../lib/common';
+import { useUser } from '../lib/customHooks';
+import { API_ROUTES, APP_ROUTES } from '../Utils/constants';
+import { storeTokenInLocalStorage } from '../lib/common';
 import React, { useState } from 'react';
 
   const LoginForm = () => {

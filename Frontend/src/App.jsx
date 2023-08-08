@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
-import LoginForm from './LoginForm/Pages/LoginForm';
-import RegisterForm from './registerForm/Pages/RegisterForm';
-import {APP_ROUTES} from '../src/utils/constants';
-import UserDetails from './LoginForm/Pages/UserDetails';
+import LoginForm from '../src/Layouts/LoginForm';
+import RegisterForm from '../src/Layouts/RegisterForm';
+import {APP_ROUTES} from '../src/Utils/constants';
+import UserDetails from '../src/Layouts/UserDetails';
 import { getTokenFromLocalStorage } from './lib/common';
-import PageNotFound from './PageNotFound/PageNotFound';
+import HomePage from './Layouts/HomePage';
 
 const App = () => {
 
@@ -25,6 +25,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/userDetails/:userId" element={<UserDetails />} />
+      <Route path="/home" element={<HomePage />} />
     </Routes>
   );
 };

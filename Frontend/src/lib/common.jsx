@@ -1,4 +1,4 @@
-import { API_ROUTES } from '../utils/constants';
+import { API_ROUTES } from '../Utils/constants';
 import axios from 'axios';
 
 

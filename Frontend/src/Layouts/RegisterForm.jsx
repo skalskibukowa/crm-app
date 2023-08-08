@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { APP_ROUTES, API_ROUTES } from '../../utils/constants';
+import { APP_ROUTES, API_ROUTES } from '../Utils/constants';
 
 const RegisterForm = () => {
 

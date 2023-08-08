@@ -1,5 +1,5 @@
 import React from "react"
-import { removeTokenFromLocalStorage } from "../../lib/common"
+import { removeTokenFromLocalStorage } from "../lib/common"
 import { useNavigate } from "react-router-dom"
 
 

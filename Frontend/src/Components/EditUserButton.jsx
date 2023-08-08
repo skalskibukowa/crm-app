@@ -2,7 +2,6 @@ import React from 'react';
 
 const EditUserButton = (props) => {
   
-  
   return (
     <button
       onClick={props.onClick}
