@@ -10,7 +10,7 @@ const SidebarItem = ({ title, children }) => {
     return (
         <li className="mb-2">
         <button
-            className="flex items-center justify-between p-2 hover:bg-gray-700 rounded-md w-full text-left"
+            className="flex items-center justify-between p-2 hover:bg-gray-200 rounded-md w-full text-left"
             onClick={toggleSubMenu}
         >
             {title} <span className="text-sm">{isOpen ? '▼' : '►'}</span>

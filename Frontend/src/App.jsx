@@ -5,6 +5,7 @@ import {APP_ROUTES} from '../src/Utils/constants';
 import UserDetails from '../src/Layouts/UserDetails';
 import { getTokenFromLocalStorage } from './lib/common';
 import HomePage from './Layouts/HomePage';
+import AboutMe from './Layouts/AboutMe';
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
     <Routes>
       <Route path="/userDetails/:userId" element={<UserDetails />} />
       <Route path="/home" element={<HomePage />} />
+      <Route path="/AboutMe" element={<AboutMe />} />
     </Routes>
   );
 };

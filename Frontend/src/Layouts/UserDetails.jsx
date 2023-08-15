@@ -8,6 +8,8 @@ import DeleteButton from '../Components/DeleteButton';
 import HomePageButton from '../Components/HomePageButton';
 import EditUserButton from '../Components/EditUserButton';
 import LogoutButton from '../Components/LogoutButton';
+import jwtDecode from 'jwt-decode';
+
 
 const UserDetails = () => {
   const [user, setUser] = useState({});
@@ -24,9 +26,10 @@ const UserDetails = () => {
   // State variable to track if the edit modal is open or closed
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const { userId } = useParams();
-
   const token = getTokenFromLocalStorage();
+
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
 
   const navigate = useNavigate();
 

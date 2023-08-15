@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAuthenticatedUser } from './common';
-import { APP_ROUTES } from '../utils/constants';
+import { APP_ROUTES } from '../Utils/constants';
 import { useNavigate } from 'react-router-dom';
 
 export function useUser() {

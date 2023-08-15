@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import SidebarItem from './SidebarItem';
 import LogoutButton from './LogoutButton';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { API_ROUTES } from '../Utils/constants';
+import { getTokenFromLocalStorage } from '../lib/common';
+import jwtDecode from 'jwt-decode';
 
 
 const SidebarNav = () => {
@@ -10,12 +15,40 @@ const SidebarNav = () => {
       setIsSidebarOpen(!isSidebarOpen);
     };
 
+    const token = getTokenFromLocalStorage();
+
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+
+    const getUserDetails = async () => {
+      try {
+        const response = await axios.get(API_ROUTES.GET_USER(userId), {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (response.status === 200) {
+          setUser(response.data.user);
+          setError(null); // Clear any previous error state if the API call succeeds
+        } else {
+          setError('User not found or API error'); // Set the error state in case the API call fails
+          setUser({});
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setError('Error fetching user details'); // Set the error state in case of any error during the API call
+        setUser({});
+      }
+    };
+
+    console.log("userId:", userId);
+
   return (
-    <div className="flex h-screen">
+
+    <aside>
       {isSidebarOpen && (
-      <div
-        className="bg-gray-800 text-white sidebar w-96"
-      >
+      <div className="h-full w-[20rem] bg-neutral-50" >
         
         <div className="p-4">
         <button onClick={toggleSidebar}>Toogle Bar</button>
@@ -24,41 +57,86 @@ const SidebarNav = () => {
         
         <nav className="p-4">
           <ul>
+           
+
+            <li className="mb-2">
+              <a
+                href="/home"
+                className="flex items-center justify-between p-2 hover:bg-gray-200 rounded-md w-full"
+              >
+                Home Page
+              </a>
+            </li>
+            <li className="mb-2">
+              <a
+                href="/AboutMe"
+                className="flex items-center justify-between p-2 hover:bg-gray-200 rounded-md w-full"
+              >
+                About me
+              </a>
+            </li>
             <li className="mb-2">
               <a
                 href="#"
-                className="flex items-center justify-between p-2 bg-gray-700 rounded-md w-full"
+                className="flex items-center justify-between p-2 hover:bg-gray-200 rounded-md w-full"
               >
-                Dashboard
+                My Projects
               </a>
             </li>
-            <SidebarItem title="Products">
-              <li className="mb-1">
-                <a href="#" className="block p-2 hover:bg-gray-700 rounded-md">
-                  All Products
+
+            <SidebarItem title="Certifications">
+            <li className="mb-1">
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  Azure
                 </a>
               </li>
               <li className="mb-1">
-                <a href="#" className="block p-2 hover:bg-gray-700 rounded-md">
-                  Add New
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  AWS
+                </a>
+              </li>
+              <li className="mb-1">
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  Other
                 </a>
               </li>
             </SidebarItem>
-            <SidebarItem title="Orders">
-              <li className="mb-1">
-                <a href="#" className="block p-2 hover:bg-gray-700 rounded-md">
-                  Pending Orders
+
+            <SidebarItem title="Apps">
+            <li className="mb-1">
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  Holiday APPs
                 </a>
               </li>
               <li className="mb-1">
-                <a href="#" className="block p-2 hover:bg-gray-700 rounded-md">
-                  Completed Orders
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  Desk reservation
+                </a>
+              </li>
+              <li className="mb-1">
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  Customers
+                </a>
+              </li>
+            </SidebarItem>
+
+
+            <SidebarItem title="Projects">
+              <li className="mb-1">
+                
+                <Link to={`/userDetails/${userId}`} onClick={getUserDetails} className="block p-2 hover:bg-gray-200 rounded-md">
+                  Team A
+                </Link>
+              </li>
+              <li className="mb-1">
+                <a href="#" className="block p-2 hover:bg-gray-200 rounded-md">
+                  Team B
                 </a>
               </li>
             </SidebarItem>
           </ul>
         </nav>
-        <div className="absolute bottom-4 left-4">
+        <div className="flex flex-end m-3">
           <LogoutButton />
         </div>
         
@@ -79,10 +157,7 @@ const SidebarNav = () => {
           </>
       )}
       
-      <div className="flex-1 p-4">
-        {/* Main content goes here */}
-      </div>
-    </div>
+      </aside>
   );
 }
 
